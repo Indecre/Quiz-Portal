@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
 
 export async function createTambolaGame(title: string, hostName: string, winConditions: string[]) {
   const res = await fetch(`${API_BASE}/api/tambola/create`, {
@@ -67,26 +67,5 @@ export async function verifyTambolaClaim(claimId: number, verified: boolean) {
 export async function getTambolaState(sessionCode: string) {
   const res = await fetch(`${API_BASE}/api/tambola/session/${sessionCode}/state`);
   if (!res.ok) throw new Error('Failed to fetch game state');
-  return res.json();
-}
-
-export async function getTambolaSessionForGame(gameId: number) {
-  const res = await fetch(`${API_BASE}/api/tambola/${gameId}/session`);
-  if (!res.ok) throw new Error('Failed to fetch session');
-  return res.json();
-}
-
-export async function endTambolaGame(gameId: number) {
-  const res = await fetch(`${API_BASE}/api/tambola/${gameId}/end`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-  });
-  if (!res.ok) throw new Error((await res.json()).error || 'Failed to end session');
-  return res.json();
-}
-
-export async function resolveTambolaCode(code: string) {
-  const res = await fetch(`${API_BASE}/api/tambola/session/${code}/resolve`);
-  if (!res.ok) throw new Error((await res.json()).error || 'Game not found');
   return res.json();
 }

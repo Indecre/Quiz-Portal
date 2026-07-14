@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
 
 export async function generateQuiz(topic: string, mcqCount: number, tfCount: number, timerSeconds: number, theme = '') {
   const res = await fetch(`${API_BASE}/api/quiz/generate`, {
@@ -103,12 +103,6 @@ export async function startQuestion(sessionCode: string, participantId: number, 
     throw new Error('Failed to record question start');
   }
 
-  return res.json();
-}
-
-export async function resolveQuizCode(code: string) {
-  const res = await fetch(`${API_BASE}/api/session/${code}`);
-  if (!res.ok) throw new Error((await res.json()).error || 'Quiz not found');
   return res.json();
 }
 
